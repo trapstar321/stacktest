@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Add news</title>
+    </head>
+    <body>
+        <form method="POST" action="http://localhost:81/stack_test/public/news/add" enctype="multipart/form-data">            
+            <label for="title">Title:</label>
+            <input type="text" name="title"/><br/>
+            <label for="short_desc">Short description:</label>
+            <input type="text" name="short_desc"/><br/>
+            <label for="text">Text:</label>            
+            <textarea name="text"></textarea><br/>
+            <label for="img">Image:</label>
+            <input type="file" name="img" value=""/><br/>
+            <input type="submit" value="Upload File"/>
+        </form>
+    </body>
+</html>

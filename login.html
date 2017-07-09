@@ -1,0 +1,45 @@
+<html>
+    <head>        
+        <title>Login</title>
+        <script type="text/javascript" src="js/knockout-3.4.2.js"></script>
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    </head>
+    <body>        
+        <form method="POST" action="/stack_test/public/auth/login">            
+            <label for="username">Username:</label>
+            <input type="text" name="username" data-bind="value: username"/><br/>
+            <label for="password">Password:</label>
+            <input type="password" name="password" data-bind="value: password"/><br/>
+            <input type="submit" value="Login" data-bind="click: login"/>
+            <span data-bind="text: response"></span>
+        </form>
+
+        <script type="text/javascript">
+            function ViewModel(){  
+                var self=this;
+                self.username = ko.observable();
+                self.password = ko.observable();
+                self.response = ko.observable();
+
+                self.login=function(){                    
+                    $.ajax({
+                        type: "POST",
+                        url: "/stack_test/public/auth/login",
+                        data: {username:self.username(), password:self.password()},
+                        success: function(data){
+                            console.log(data.token);
+                            console.log(data.user_id);
+                            self.response(""); 
+                        },
+                        error: function(data){
+                            self.response(data.responseText);                            
+                        }                        
+                    });
+                    return false;
+                }
+            }
+            
+            ko.applyBindings(new ViewModel());
+        </script>
+    </body>
+</html>
