@@ -24,7 +24,7 @@
                 self.login=function(){                    
                     $.ajax({
                         type: "POST",
-                        url: "/stack_test/public/auth/login",
+                        url: "/stacktest/public/auth/login",
                         data: {username:self.username(), password:self.password()},
                         success: function(data){
                             console.log(data.token);

@@ -1,0 +1,18 @@
+<form>        
+    <div class="form-group row">    
+        <div class="col-xs-2">
+            <h4>Username:</h4>
+            <input class="form-control" type="text" name="username" data-bind="value: username"/><br/>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-2">
+            <h4>Password:</h4>
+            <input class="form-control" type="password" name="password" data-bind="value: password"/><br/>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary" type="submit" data-bind="click: login">Login</button>
+    <span data-bind="text: response"></span>
+</form>
