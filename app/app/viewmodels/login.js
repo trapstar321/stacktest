@@ -5,8 +5,8 @@ define(['durandal/app', 'plugins/http', 'knockout', 'user'], function (app, http
         password: ko.observable(),
         response: ko.observable(),
         login: function(item) {
-            response = this.response;                        
-            http.post("/stacktest/public/auth/login", {username:this.username(), password:this.password()})
+            response = this.response;                                    
+            http.post("/stacktest/public/auth/login", {username:this.username(), password:this.password()})            
             .success(function(response) {
                 user.token(response.token);
                 user.user_id(response.user_id);                

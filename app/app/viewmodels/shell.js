@@ -11,6 +11,7 @@
                 { route: '', title:'Welcome', moduleId: 'viewmodels/welcome', nav: true },
                 { route: 'login', title:'Login', moduleId: 'viewmodels/login', nav: false },
                 { route: 'news/today', title:'Today news', moduleId: 'viewmodels/news/today', nav: true },
+                { route: 'news/add', title:'Add news', moduleId: 'viewmodels/news/add', nav: true },
                 { route: 'flickr', moduleId: 'viewmodels/flickr', nav: true }
             ]).buildNavigationModel();
             

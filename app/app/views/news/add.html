@@ -1,0 +1,32 @@
+<form id="add_form">        
+    <div class="form-group row">    
+        <div class="col-xs-2">
+            <h4>Title:</h4>
+            <input data-bind="value: title" class="form-control" type="text" name="title"/>
+        </div>
+    </div>
+
+    <div class="form-group row">    
+        <div class="col-xs-2">
+            <h4>Short description:</h4>
+            <textarea data-bind="value: short_desc" class="form-control" name="short_desc"/></textarea>
+        </div>
+    </div>
+
+    <div class="form-group row">    
+        <div class="col-xs-2">
+            <h4>Text:</h4>
+            <textarea data-bind="value: text" class="form-control" name="text"/></textarea>
+        </div>
+    </div>
+
+    <div class="form-group row">    
+        <div class="col-xs-2">
+            <h4>Image:</h4>
+            <input class="form-control" type="file" name="img"/>
+        </div>
+    </div>    
+    
+    <button class="btn btn-primary" type="submit" data-bind="click: add">Add</button>
+    <span data-bind="text: response"></span>
+</form>

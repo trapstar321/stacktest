@@ -61,6 +61,12 @@ $app->get('/news/today', function(Request $request, Response $response) use($dm)
     foreach($cursor as $news){        
         $temp[]=$news->toArray();
     }
+
+    
+    //TODO: make url somehow, not hardcoded like this
+    for($i=0;$i<count($temp);$i++)
+        $temp[$i]["img_path"]=join("/", array("http://localhost:81/stacktest", $temp[$i]["img_path"]));
+        
     return $response->withJson($temp);    
 });
 
@@ -92,7 +98,7 @@ $app->post('/news/add', function(Request $request, Response $response) use($dm){
 
     //mime type and filesize validation
     $file->addValidations(array(        
-        new \Upload\Validation\Mimetype(array('image/png', 'image/jpg')),                
+        new \Upload\Validation\Mimetype(array('image/png', 'image/jpg', 'image/jpeg')),                
         new \Upload\Validation\Size('5M')
     ));
     

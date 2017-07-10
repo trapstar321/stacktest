@@ -5,10 +5,8 @@ define(['durandal/app', 'plugins/http', 'knockout'], function (app, http, ko) {
         activate: function () {
             var news = this.news;
             http.get("/stacktest/public/news/today", {})
-            .success(function(response) {                                
-                //news(response);                               
+            .success(function(response) {                                                
                 news(response);
-                console.log(news());
             })
             .error(function(data){
                 
