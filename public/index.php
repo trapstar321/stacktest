@@ -3,7 +3,7 @@
 require __DIR__.'/../bootstrap.php';
 require __DIR__.'/../routes.php';
 
-$paths_to_authenticate = array("/news/add", "/news/update", "/news/test");
+$paths_to_authenticate = array("/news/add", "/news/update", "/news/test", "/news/my");
 
 $app->add(function($request, $response, $next) use($dm, $paths_to_authenticate){
     $authenticate = false;

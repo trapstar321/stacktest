@@ -17,11 +17,68 @@
     }
 });
 
-define('user', ['durandal/app', 'knockout'],
-    function (app, ko) {
+define('user', ['durandal/app', 'knockout', 'plugins/router', 'routesConfig'],
+    function (app, ko, router, routesConfig) {
         return {
             token:ko.observable(),
-            user_id:ko.observable()
+            user_id:ko.observable(),
+            firstname:ko.observable(),
+            lastname:ko.observable(),            
+            welcome:function(){                
+                return "Welcome "+this.firstname()+" "+this.lastname();
+            },
+            loggedin:ko.observable(false),            
+            login:function(response){
+                this.token(response.token);
+                this.user_id(response.user_id);
+                this.firstname(response.firstname);
+                this.lastname(response.lastname);
+                this.loggedin(true);
+
+                router.reset();
+                router.map([
+                    routesConfig.loggedInRoutes
+                ]).buildNavigationModel();                
+                
+                router.navigate('home');  
+            },
+            logout:function(redirect){                   
+                this.token(undefined);
+                this.user_id(undefined);
+                this.firstname(undefined);
+                this.lastname(undefined);
+                this.loggedin(false);    
+
+                router.reset();
+                router.map([
+                    routesConfig.defaultRoutes
+                ]).buildNavigationModel();                
+                
+                if(redirect)
+                    router.navigate('home');                            
+            },
+            error:function(data){                
+                if(data.status==401){
+                    var self=this;
+                    app.showMessage('You are not logged in.', 'Unauthorized error', ["Login"]).then(function(dialogResult){
+                        if(dialogResult === "Login"){
+                            self.logout(false);
+                            router.navigate("login");
+                        }
+                    });                    
+                }else{
+                    //TODO: display error in nice way
+                }
+            },
+            authCheck:function(){
+                var dfd = $.Deferred();
+                if(!this.loggedin())
+                    dfd.resolve({'redirect': 'login'});
+                else
+                    dfd.resolve(true);            
+
+                return dfd;
+            }
         }
     }
 );
@@ -31,7 +88,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'bootstrap'],
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = 'Durandal Starter Kit';
+    app.title = 'News';
 
     app.configurePlugins({
         router:true,

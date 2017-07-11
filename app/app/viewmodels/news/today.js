@@ -6,7 +6,10 @@ define(['durandal/app', 'plugins/http', 'knockout'], function (app, http, ko) {
             var news = this.news;
             http.get("/stacktest/public/news/today", {})
             .success(function(response) {                                                
-                news(response);
+                response.forEach(function(element){
+                    element.link="index.html#news/"+element.id;
+                });
+                news(response);                
             })
             .error(function(data){
                 

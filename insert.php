@@ -4,7 +4,7 @@ require("bootstrap.php");
 use DateTime;
 
 $user = new User();
-$user->setUsername("tjadrejcic2");
+$user->setUsername("tjadrejcic");
 $user->setFirstname("Tomica");
 $user->setLastname("Jadrejčič");
 $user->setEmail("jadrejcictomica@live.com");

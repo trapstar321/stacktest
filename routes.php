@@ -16,7 +16,7 @@ $app->post('/auth/login', function(Request $request, Response $response) use($dm
     if($user){
         //generate token and update user in db
         $token=bin2hex(openssl_random_pseudo_bytes(8));
-        $data = array("token"=>$token, "user_id"=>$user->getID());
+        $data = array("token"=>$token, "user_id"=>$user->getID(), "firstname"=>$user->getFirstname(), "lastname"=>$user->getLastname());
         $user->setToken($token);
         $dm->persist($user);
         $dm->flush();
@@ -70,9 +70,32 @@ $app->get('/news/today', function(Request $request, Response $response) use($dm)
     return $response->withJson($temp);    
 });
 
+$app->get('/news/my', function(Request $request, Response $response) use($dm){
+    $user = $request->getAttribute('user');
+    $check = new DateTime();
+    $check->setTime(0,0,0);
+    $query = $dm->createQueryBuilder('News')
+                ->field('author')->equals($user)
+                ->getQuery();
+                
+    $cursor = $query->execute();
+    $temp=[];
+    foreach($cursor as $news){        
+        $temp[]=$news->toArray();
+    }
+
+    
+    //TODO: make url somehow, not hardcoded like this
+    for($i=0;$i<count($temp);$i++)
+        $temp[$i]["img_path"]=join("/", array("http://localhost:81/stacktest", $temp[$i]["img_path"]));
+        
+    return $response->withJson($temp);    
+});
+
 $app->get('/news/{id}', function(Request $request, Response $response) use($dm){
     $id = $request->getAttribute("id");    
-    $news = $dm->getRepository('News')->find($id); 
+    $news = $dm->getRepository('News')->find($id);
+    $news->setImgPath(join("/", array("http://localhost:81/stacktest", $news->getImgPath())));
     if(!$news)
         return $response->withStatus(404);
     else      
