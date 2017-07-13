@@ -1,4 +1,4 @@
-define(['durandal/app', 'plugins/http', 'knockout', 'user'], function (app, http, ko, user) {    
+define(['durandal/app', 'plugins/http', 'knockout', 'user', 'httpError'], function (app, http, ko, user, he) {    
     return {
         displayName: 'My news',
         news: ko.observableArray(),  
@@ -16,6 +16,7 @@ define(['durandal/app', 'plugins/http', 'knockout', 'user'], function (app, http
             })
             .error(function(data){                
                 user.error(data);
+                he.handleError(data);
             });
         },
     };

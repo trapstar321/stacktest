@@ -95,7 +95,10 @@ $app->get('/news/my', function(Request $request, Response $response) use($dm){
 $app->get('/news/{id}', function(Request $request, Response $response) use($dm){
     $id = $request->getAttribute("id");    
     $news = $dm->getRepository('News')->find($id);
-    $news->setImgPath(join("/", array("http://localhost:81/stacktest", $news->getImgPath())));
+
+    if($news)
+        $news->setImgPath(join("/", array("http://localhost:81/stacktest", $news->getImgPath())));
+
     if(!$news)
         return $response->withStatus(404);
     else      
@@ -106,8 +109,9 @@ $app->post('/news/test', function(Request $request, Response $response) use($dm,
     return $response->write($request->getAttribute('user')->getUsername());
 });
 
-$app->post('/news/add', function(Request $request, Response $response) use($dm){      
+$app->post('/news/submit', function(Request $request, Response $response) use($dm){      
     $user = $request->getAttribute('user');
+    $id = $request->getParam('id');
     $title = $request->getParam('title');
     $short_desc = $request->getParam('short_desc');
     $text = $request->getParam('text');
@@ -138,7 +142,17 @@ $app->post('/news/add', function(Request $request, Response $response) use($dm){
         // Success!
         $file->upload();
 
-        $news = new News();
+        //TODO: if id is defined find news in db and update else insert new news
+
+        if($id)
+            $news = $dm->getRepository("News")->find($id);
+        else
+            $news = new News();
+
+        if(!$news){
+            return $response->withStatus(404);
+        }
+
         $news->setTitle($title);
         $news->setShortDesc($short_desc);
         $news->setText($text);
@@ -147,9 +161,11 @@ $app->post('/news/add', function(Request $request, Response $response) use($dm){
         $news->setPostDate(new DateTime());
 
         $dm->persist($news);
-        $dm->flush();
+        $dm->flush();        
 
-        return $response->write("OK");    
+        $news->setImgPath(join("/", array("http://localhost:81/stacktest", $news->getImgPath())));
+
+        return $response->withJson($news->toArray(false));    
     } catch (\Exception $e) {
         // Fail!
         $errors = $file->getErrors();           

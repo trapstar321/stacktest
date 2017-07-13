@@ -1,11 +1,18 @@
-define(['durandal/app', 'plugins/http', 'knockout', 'plugins/router'], function (app, http, ko, router) {    
+define(['durandal/app', 'plugins/http', 'knockout', 'plugins/router', 'httpError'], function (app, http, ko, router, he) {    
     return {
         displayName: 'Get news by id',
         title: ko.observable(),     
         text: ko.observable(),     
         short_desc: ko.observable(),     
         img_path: ko.observable(),             
+        reset:function(){
+            this.title("");
+            this.text("");
+            this.short_desc("");
+            this.img_path("");
+        },
         activate: function () {
+            this.reset();
             id = router.activeInstruction().params[0]
             var self=this;
             http.get("/stacktest/public/news/"+id, {})
@@ -18,7 +25,7 @@ define(['durandal/app', 'plugins/http', 'knockout', 'plugins/router'], function 
                 document.title=self.title();
             })
             .error(function(data){
-                
+                he.handleError(data);
             });
         },
     };

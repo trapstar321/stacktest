@@ -4,16 +4,18 @@
             defaultRoutes:[                
                 { route: 'home', title:'Home', moduleId: 'viewmodels/news/today', nav: true},
                 { route: 'login', title:'Login', moduleId: 'viewmodels/login', nav: true },                
-                { route: 'news/add', title:'Add news', moduleId: 'viewmodels/news/add', nav: false},                
+                { route: 'news/add', title:'Add news', moduleId: 'viewmodels/news/submit', nav: false},                
+                { route: 'news/update/:id', title:'Update news', moduleId: 'viewmodels/news/submit', nav: false},                
                 { route: 'news/my', title:'My news', moduleId: 'viewmodels/news/my', nav: false},
                 { route: 'news/(:id)', title:'', moduleId: 'viewmodels/news/get', nav: false},                
             ],
             loggedInRoutes:[
                 { route: 'home', title:'Home', moduleId: 'viewmodels/news/today', nav: true }, 
                 { route: 'login', title:'Login', moduleId: 'viewmodels/login', nav: false },                
-                { route: 'news/add', title:'Add news', moduleId: 'viewmodels/news/add', nav: true},                
+                { route: 'news/add', title:'Add news', moduleId: 'viewmodels/news/submit', nav: true},                
+                { route: 'news/update/:id', title:'Update news', moduleId: 'viewmodels/news/submit', nav: false},                
                 { route: 'news/my', title:'My news', moduleId: 'viewmodels/news/my', nav: true},
-                { route: 'news/(:id)', title:'', moduleId: 'viewmodels/news/get', nav: false},
+                { route: 'news/:id', title:'', moduleId: 'viewmodels/news/get', nav: false},
             ]
         }
     }

@@ -17,6 +17,22 @@
     }
 });
 
+define('httpError', ['durandal/app', 'knockout', 'plugins/router', 'routesConfig'],
+    function(app, ko, router, routesConfig){
+        return {
+            handleError:function(data){
+                if(data.status!=401){
+                    app.showMessage(data.responseText.length>0?data.responseText:"An error occured", data.status+" "+data.statusText, ["OK"]).then(function(dialogResult){
+                            if(dialogResult === "OK"){                            
+                                router.navigate("home");
+                            }
+                        }); 
+                }
+            }
+        }
+    }
+);
+
 define('user', ['durandal/app', 'knockout', 'plugins/router', 'routesConfig'],
     function (app, ko, router, routesConfig) {
         return {
@@ -66,8 +82,6 @@ define('user', ['durandal/app', 'knockout', 'plugins/router', 'routesConfig'],
                             router.navigate("login");
                         }
                     });                    
-                }else{
-                    //TODO: display error in nice way
                 }
             },
             authCheck:function(){
